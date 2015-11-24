@@ -43,10 +43,12 @@ public class AppListener implements ServletContextListener {
         // TODO Auto-generated method stub
         try {
             SystemConfig.init();
-            if (SystemConfig.solrHome != null && SystemConfig.solrHome.exists()) {
+            /*if (SystemConfig.solrHome != null && SystemConfig.solrHome.exists()) {
                 System.setProperty("solr.solr.home",
                         "I:/dev/apache-tomcat-7.0.39-windows-x64/apache-tomcat-7.0.39/solr");
-            }
+            }*/
+            System.setProperty("solr.solr.home",
+                    SystemConfig.solrHome.getAbsolutePath());
             initDic(SystemConfig.dicHome);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="example" version="1.5">
+
+    <!--默认字段不要更改 -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+    <!--默认字段不要更改 -->
+    <field name="_root_" type="string" indexed="true" stored="false"/>
+
+    <!--serial id，可以不唯一 -->
+    <field name="id" type="string" indexed="true" stored="true"
+           required="true" multiValued="false"/>
+
+
+    <!--名称 -->
+    <field name="title" type="text_ik" indexed="true" stored="true"/>
+    <!--内容 -->
+    <field name="content" type="text_ik" indexed="true" stored="true"/>
+    <!--文件路径 -->
+    <field name="docFilePath" type="string" indexed="true" stored="true"/>
+    <!--顺序 -->
+    <field name="order" type="int" indexed="true" stored="true"/>
+    <!--文件名 -->
+    <field name="docFileName" type="string" indexed="true" stored="true"/>
+	<!--文件类型 -->
+    <field name="type" type="int" indexed="true" stored="true"/>
+
+    
+
+    <!--逻辑字段 -->
+    <field name="text" type="text_ik" stored="false" indexed="true"
+           multiValued="true"/>
+
+
+    <defaultSearchField>title</defaultSearchField>
+    <solrQueryParser defaultOperator="OR"/>
+    <uniqueKey>id</uniqueKey>
+
+    <copyField source="title" dest="text"/>
+    <copyField source="content" dest="text"/>
+
+    <fieldType name="string" class="solr.StrField"
+               sortMissingLast="true"/>
+    <fieldType name="boolean" class="solr.BoolField"
+               sortMissingLast="true"/>
+    <fieldType name="int" class="solr.TrieIntField"
+               precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="float" class="solr.TrieFloatField"
+               precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="long" class="solr.TrieLongField"
+               precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField"
+               precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="tint" class="solr.TrieIntField"
+               precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField"
+               precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tlong" class="solr.TrieLongField"
+               precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="tdouble" class="solr.TrieDoubleField"
+               precisionStep="8" positionIncrementGap="0"/>
+    <fieldType name="date" class="solr.TrieDateField"
+               precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="tdate" class="solr.TrieDateField"
+               precisionStep="6" positionIncrementGap="0"/>
+    <fieldtype name="binary" class="solr.BinaryField"/>
+    <fieldType name="random" class="solr.RandomSortField"
+               indexed="true"/>
+
+    <!--IKAnalyzer字段 -->
+    <fieldType name="text_ik" class="solr.TextField">
+        <!--<analyzer type="index" class="org.wltea.analyzer.lucene.IKAnalyzer">  
+			<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /> 
+			<filter class="solr.LowerCaseFilterFactory"/>
+			<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/> 
+		</analyzer>
+		<analyzer type="query" class="org.wltea.analyzer.lucene.IKAnalyzer">
+			<filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" />
+			<filter class="solr.LowerCaseFilterFactory"/>
+			<filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+			
+		</analyzer>-->
+        <analyzer type="index" isMaxWordLength="false" class="org.wltea.analyzer.lucene.IKAnalyzer"/>
+        <analyzer type="query" isMaxWordLength="true"
+                  class="org.wltea.analyzer.lucene.IKAnalyzer"/>
+    </fieldType>
+
+
+</schema>
